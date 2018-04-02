@@ -1,39 +1,44 @@
-# Based on Ubuntu16(CPU only)
+Based on Ubuntu16(CPU only)
+=====================================================================================================================
 
-PS:The following installing way is based on Ubuntu16, which requires at least 2G memory, 10G storagy. Because there is a conflict between Caffe and Anaconda, it's better that insatll Caffe firstly and then install Anaconda.
+PS:The following installing way is based on Ubuntu16, which requires at least 2G memory, 10G storagy. Because there is
+a conflict between Caffe and Anaconda, it's better that insatll Caffe firstly and then install Anaconda.
 But the installing strategy below is installing anaconda firstly. The cost is that I had to uninstall libtiff.
 
-1.Download and install Anaconda2
+# 1.Download and install Anaconda2
+---------------------------------------------------------------------------------------------------------------------
 wget -c https://repo.continuum.io/archive/Anaconda2-5.0.1-Linux-x86_64.sh
 bash Anaconda2-5.0.1-Linux-x86_64.sh
 and so on.
 add to environment variable.
 
-2.Download Caffe
+# 2.Download Caffe
+---------------------------------------------------------------------------------------------------------------------
 git clone https://github.com/BVLC/caffe.git
 
-3.Install the attachments of Caffe
+# 3.Install the attachments of Caffe
+---------------------------------------------------------------------------------------------------------------------
 reference: http://caffe.berkeleyvision.org/installation.html
 click: Ubuntu installation the standard platform
 Choose CMAKE strategy.
-3.1 Install cmake and make
+## 3.1 Install cmake and make
 sudo apt-get update
 sudo apt-get install make
 sudo apt-get install cmake
 cmake --version   #must bigger than 2.8.7
 
-3.2 Install atachments following Ubuntu (< 17.04)
+## 3.2 Install atachments following Ubuntu (< 17.04)
 sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
 sudo apt-get install --no-install-recommends libboost-all-dev
 
-3.3 Install BLAS
+## 3.3 Install BLAS
 sudo apt-get install libatlas-base-dev
 sudo apt-get install libopenblas-dev
 
-3.4 Install other attachments
+## 3.4 Install other attachments
 sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev
 
-3.5 Compilation
+## 3.5 Compilation
 mkdir build
 cd build
 cmake ..
@@ -42,7 +47,7 @@ make all
 make install
 make runtest
 
-3.4 Final debugging
+## 3.6 Final debugging
 Add Caffe into environment variable:
 export PYTHONPATH=/home/ubuntu/caffe/python:$PYTHONPATH
 

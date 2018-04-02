@@ -1,0 +1,80 @@
+Caffe installing（RHEL  Fedora CentOS for GPU）
+
+reference: 
+http://caffe.berkeleyvision.org/install_yum.html
+https://www.zybuluo.com/hanxiaoyang/note/364680
+
+# 1. Install attachments
+sudo yum install protobuf-devel leveldb-devel snappy-devel opencv-devel boost-devel hdf5-devel gflags-devel glog-devel lmdb-devel
+
+# 2. Install cuda
+CUDA: Install via the NVIDIA package instead of yum to be certain of the library and driver versions. 
+Install the library and latest driver separately; the driver bundled with the library is usually out-of-date. 
++ CentOS/RHEL/Fedora: cuda had been installed.
+
+# 3. Install BLAS
+There are three blas you can choose, atlas，openblas and MKL. The difference is the speed on cpu is different.
+I choose openblas:
+sudo yum install openblas-devel.x86_64
+
+# 4. Before compiling
+cd caffe 
+cp Makefile.config.example Makefile.config 
+vim Makefile.config
+Change the file into following:
+# BLAS choice:
+# atlas for ATLAS (default)
+# mkl for MKL
+# open for OpenBlas
+#BLAS := atlas
+BLAS := open
+
+# Homebrew puts openblas in a directory that is not on the standard search path
+# BLAS_INCLUDE := $(shell brew --prefix openblas)/include
+# BLAS_LIB := $(shell brew --prefix openblas)/lib
+BLAS_INCLUDE := /usr/include/openblas
+
+# Uncomment to support layers written in Python (will link against Python libs)
+WITH_PYTHON_LAYER := 1
+
+# 5. compiling
+make all -j8       #8 means using 8 cpu to run     
+make test
+make runtest
+
+# 6. final debugging
+## 6.1 get the pathway of numpy 
+python
+>>> import numpy
+>>> numpy.get_include()
+'/usr/local/anaconda2/lib/python2.7/site-packages/numpy/core/include'
+
+## 6.2 vim Makefile.config
+vim Makefile.config
+from:
+PYTHON_INCLUDE := /usr/include/python2.7 \
+        /usr/lib/python2.7/dist-packages/numpy/core/include
+into:
+PYTHON_INCLUDE := /usr/include/python2.7 \
+         /usr/local/anaconda2/lib/python2.7/site-packages/numpy/core/include
+
+and in the root directory of caffe:
+make pycaffe 
+
+error:
+ImportError: No module named google.protobuf.internal
+solution:
+sudo /usr/local/anaconda2/bin/pip install protobuf
+
+finally:
+make pycaffe 
+
+# 7. make distribute
+in the root directory of caffe:
+make distribute
+
+So, everyone can copy the caffe directory to his/her directory, and add caffe into environment variable.
+cp -rf /home/one/caffe /home/two/
+export PYTHONPATH="/home/two/caffe/python:$PYTHONPATH"
+
+So, every can use Caffe!

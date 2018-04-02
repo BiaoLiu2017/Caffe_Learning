@@ -1,4 +1,4 @@
-#Based on Ubuntu16(CPU only)
+# Based on Ubuntu16(CPU only)
 
 PS:The following installing way is based on Ubuntu16, which requires at least 2G memory, 10G storagy. Because there is a conflict between Caffe and Anaconda, it's better that insatll Caffe firstly and then install Anaconda.
 But the installing strategy below is installing anaconda firstly. The cost is that I had to uninstall libtiff.
